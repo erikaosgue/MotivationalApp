@@ -13,10 +13,14 @@ import kotlin.random.Random
 
 class QuoteFragment : Fragment() {
 
+	// this is A combination of Create view an Bind data, once the Fragment is Created it will
+	//contain the data we pass it with Bundle(), and Once the ViewAdapter call it will return this
+	//view with the data fill in the view everytime the users move to a next fragment
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View? {
 
 		val view = inflater.inflate(R.layout.fragment_quote, container, false)
+
 		val quote = arguments?.get("quote").toString()
 		val author = arguments?.get("author").toString()
 
@@ -36,6 +40,7 @@ class QuoteFragment : Fragment() {
 	}
 
 	fun newInstance(quote: String, author: String): QuoteFragment {
+
 
 		val fragment = QuoteFragment()
 

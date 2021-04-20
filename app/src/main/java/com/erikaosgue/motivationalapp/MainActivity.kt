@@ -28,9 +28,8 @@ class MainActivity : AppCompatActivity() {
 		activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(activityMainBinding.root)
 
-		// QuoteViewPagerAdapter
+		// QuoteViewPagerAdapter that will display the fragments
 		quoteViewPagerAdapter = QuoteViewPagerAdapter(supportFragmentManager, getFragments())
-
 
 		activityMainBinding.viewPager.adapter = quoteViewPagerAdapter
 	}
@@ -39,21 +38,26 @@ class MainActivity : AppCompatActivity() {
 
 		val fragmentList = ArrayList<Fragment>()
 
-		//QuoteData().getQuote makes the request to bring all data from the API
-		// The parameter object is pass from the call back
-		QuoteData().getQuote(object : QuoteListAsyncResponse {
+		/*
+		QuoteData().getQuote makes the request to bring all data from the API
+		The parameter object QuoteListAsyncResponse is pass as a call back
+		 and inside that function getQuote will create and pass the arrayLIst of quotes
+		to the call back
+		*/
+		QuoteData().getQuote( // This is a callback Object:
+			object : QuoteListAsyncResponse {
 
-			// This quotes ArrayList come from the QuoteData getQuote Function that calls the callBack that
-			// passes the ArrayList as a Parameter
+			// This quotes ArrayList come from the QuoteData getQuote Function that calls the callBack and
+			// passes the ArrayList as a Parameter to that call back
 			override fun processFinished(quotes: ArrayList<Quote>) {
+
 				for (i in 0 until quotes.size) {
 					val quoteFragment = QuoteFragment().newInstance(quotes[i].quote, quotes[i].author)
 					fragmentList.add(quoteFragment)
 				}
-
 				quoteViewPagerAdapter.notifyDataSetChanged()
 			}
-
+			// End of the callback object
 		})
 
 		return fragmentList

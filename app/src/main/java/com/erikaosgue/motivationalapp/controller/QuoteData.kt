@@ -26,26 +26,17 @@ class QuoteData {
             { response: JSONArray ->
 
                 for (i in 0 until response.length()) {
+
                     val quoteObject = response[i] as JSONObject
                     //Converting from Json to Kotlin Object the quote
                     val quote = Quote(quoteObject["quote"].toString(), quoteObject["name"].toString())
-//                    Log.d("Quote object: ", "${quote.author} ${quote.quote}")
                     quoteArrayList.add(quote)
-
                 }
                 callback.processFinished(quoteArrayList)
-
             },
             { error: VolleyError ->
                 Log.d("Response: ", error.toString())
-
             })
-
-        AppController.instance!!.addToRequestQueue(quoteRequest)
-
+        AppController.appControllerInstance!!.addToRequestQueue(quoteRequest)
     }
-
-
-
-
 }
